@@ -205,7 +205,8 @@ TEST_CASE("Add program dir to path") {
     };
     static auto validate_path_len = [](size_t default_len) {
 #if PY_VERSION_HEX < 0x030A0000
-        // It seems a value remains in sys.path left by the previous call of scoped_interpreter ctor.
+        // It seems a value remains in sys.path
+        // left by the previous call of scoped_interpreter ctor.
         REQUIRE(get_sys_path_size() > default_len);
 #else
         REQUIRE(get_sys_path_size() == default_len + 1);
@@ -216,7 +217,7 @@ TEST_CASE("Add program dir to path") {
     size_t sys_path_default_size = 0;
     {
         py::scoped_interpreter scoped_interp{true, 0, nullptr, false};
-        validate_path_len(sys_path_default_size);
+        sys_path_default_size = get_sys_path_size();
     }
     {
         py::scoped_interpreter scoped_interp{}; // expected to append some to sys.path
